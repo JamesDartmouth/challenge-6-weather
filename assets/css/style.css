@@ -1,0 +1,10 @@
+*{
+    border: dashed red 1px;
+}
+
+.jumbotron {
+    font-size: 2rem;
+    text-align: center;
+    color:white;
+    height: 5rem;
+}
