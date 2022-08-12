@@ -1,6 +1,8 @@
 var pastCity = JSON.parse(localStorage.getItem("cityname"))
 var cityHistory = [];
 var cityInput= $("#cityInput");
+var city= cityInput.val();
+var testCity = "calabasas"
 
 $("#searchBtn").on('click', function(event){
     event.preventDefault();
@@ -9,6 +11,12 @@ $("#searchBtn").on('click', function(event){
    
     console.log(cityHistory)
     renderCity();
+    getCityCoor();
+
+    // var lat =
+    // var lon
+
+    getCityWeather()
 })
 
 function storeCity(){
@@ -40,19 +48,39 @@ function renderCity(){
 }
 
 
+//getting weather data
 
-fetch('https://api.openweathermap.org/geo/1.0/direct?q=calabasas&limit=5&appid=$f8ab7ee75fa26e66f8078a0b1abdadfe')
+
+function getCityCoor (){
+
+fetch('https://api.openweathermap.org/geo/1.0/direct?q='+testCity+'&limit=5&appid=f8ab7ee75fa26e66f8078a0b1abdadfe')
     .then(function(response){
         return response.json();
     })
     .then(function(data){
         console.log(data);
+        console.log(data[0].lat)
+        console.log(data[0].lon)
+        var x = data[0].lat
+        var y = data[0].lon
+        getCityWeather(x,y);
     });
 
+};
 
-//     https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
+function getCityWeather(lat,lon){
 
-//     http://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}&limit={limit}&appid={API key}
+fetch('https://api.openweathermap.org/data/2.5/onecall?lat=34.1446643&lon=-118.6440973&units=imperial&exclude=minutely,hourly&appid=f8ab7ee75fa26e66f8078a0b1abdadfe')
+    .then(function(response){
+
+        return response.json();
+    })
+    .then(function(data){
+        console.log(data);
+    });
+}
+
+
 
 
 
