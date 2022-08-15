@@ -1,35 +1,42 @@
-var pastCity = JSON.parse(localStorage.getItem("cityname"))
-var cityHistory = [];
+var pastCity = JSON.parse(localStorage.getItem("cityHistory"))
+var cityHistory = pastCity||[];
+renderCity();
 var cityInput= $("#cityInput");
 // var city= cityInput.val();
 var city = cityInput.value
 
+var city= cityInput.val()
 
 $("#searchBtn").on('click', function(event){
     event.preventDefault();
    
     var city= cityInput.val();
-    cityHistory.push(city);
-   
+    cityInput.val("");
+    if(cityHistory.indexOf(city)===-1){
+
+     cityHistory.push(city);
+    }
     console.log(cityHistory)
     storeCity();
     renderCity(); 
-    getCityCoor();
+    getCityCoor(city);
 })
 
 
 
 function storeCity(){
-    localStorage.setItem("cityname", JSON.stringify(cityHistory));
-    var city = localStorage.getItem("cityname")
-    var pCity = JSON.parse(city);
-    console.log(city)
+    localStorage.setItem("cityHistory", JSON.stringify(cityHistory));
+    // var city = localStorage.getItem("cityname")
+    // var pCity = JSON.parse(city);
+    // console.log(city)
     
 }
 
 
 function renderCity(){
     // cityList.remove(liEl)
+    var cityList=$("#cityList")
+    cityList.html("")
     for( var i=0; i < cityHistory.length; i++) {
     
     var liEl= document.createElement('li');
@@ -45,14 +52,14 @@ $("#cityList").on('click', function(event){
         var pCity = event.target.textContent
         getCityCoor(pCity)
         console.log(pCity)
-        getCityWeather()
+        
     }
 })
 
 }
 
-function getCityCoor (){
-    var city= cityInput.val()
+function getCityCoor (city){
+    
 fetch('https://api.openweathermap.org/geo/1.0/direct?q='+city+'&limit=5&appid=f8ab7ee75fa26e66f8078a0b1abdadfe')
     .then(function(response){
         return response.json();
@@ -60,11 +67,11 @@ fetch('https://api.openweathermap.org/geo/1.0/direct?q='+city+'&limit=5&appid=f8
     .then(function(data){
         // var x = data[0].lat
         // var y = data[0].lon
-        getCityWeather(data[0]);
+        getCityWeather(data[0],city);
     });
 };
 
-function getCityWeather(data){
+function getCityWeather(data,city){
    
 fetch('https://api.openweathermap.org/data/2.5/onecall?lat=' +data.lat+ '&lon=' +data.lon+ '&units=imperial&exclude=minutely,hourly&appid=f8ab7ee75fa26e66f8078a0b1abdadfe')
     .then(function(response){
@@ -73,7 +80,7 @@ fetch('https://api.openweathermap.org/data/2.5/onecall?lat=' +data.lat+ '&lon=' 
     .then(function(data){
         console.log(data)
 
-        document.getElementById("cCity").textContent= cityInput.val() + "  " +moment().format('MM/DD/YYYY')
+        document.getElementById("cCity").textContent= city + "  " +moment().format('MM/DD/YYYY')
 
         // $('#cIcon').attr('src', "http://openweathermap.org/img/wn/"+data.weather[0].icon+".png")
 

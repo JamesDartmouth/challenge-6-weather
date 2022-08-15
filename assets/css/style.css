@@ -15,6 +15,17 @@
     margin-top: 10px;
 }
 
+/* #list.li{
+    text-align: center;
+    border: solid black 1px;
+    width: 80px;
+    height: 30px;
+    border-radius: 0.5rem;
+    background-color: black;
+    color: white;
+    font-size: 1rem;
+} */
+
 #dashboard{
     margin-top: 10px;
 }
@@ -33,7 +44,7 @@ h1, h2, h3{
 
 #uvColor{
     text-align: center;
-    border: dashed red 1px;
+    border: solid black 1px;
     width: 80px;
     height: 30px;
     border-radius: 0.5rem;
