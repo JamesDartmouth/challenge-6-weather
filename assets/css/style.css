@@ -1,5 +1,5 @@
 *{
-    border: dashed red 1px;
+    /* border: dashed red 1px; */
 }
 
 .jumbotron {
@@ -11,6 +11,9 @@
     background-color:rgb(26, 12, 102);
     background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%)
 }
+#weather, #city, #forecast{
+    margin-top: 10px;
+}
 
 #dashboard{
     margin-top: 10px;
@@ -19,20 +22,34 @@
 h1, h2, h3{
     font-size: 1.5rem;
 }
+ #icon1, #icon2, #icon3, #icon4, #icon5{
+    max-width: 40%;
+    height:auto
+ }
 
 .current{
     font-size: 1.2rem;
+}
+
+#uvColor{
+    text-align: center;
+    border: dashed red 1px;
+    width: 80px;
+    height: 30px;
+    border-radius: 0.5rem;
+    background-color: black;
+    color: white;
+    font-size: 1rem;
 }
 
 h2{
     text-transform: capitalize;
 }
 
-#cityList:nth-child(){
-    text-transform: capitalize;
-}
+
 
 .btn{
+    margin-top: 5px;
     font-size: 1rem;
     color: white;
     background-color: rgba(9,9,121,1);
