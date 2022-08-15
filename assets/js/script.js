@@ -2,8 +2,8 @@ var pastCity = JSON.parse(localStorage.getItem("cityname"))
 var cityHistory = [];
 var cityInput= $("#cityInput");
 // var city= cityInput.val();
-var testCity = "calabasas"
-var city = cityInput
+var city = cityInput.value
+
 
 $("#searchBtn").on('click', function(event){
     event.preventDefault();
@@ -18,6 +18,16 @@ $("#searchBtn").on('click', function(event){
 })
 
 
+// $("#cityList").on('click', function(event){
+//     event.preventDefault();
+//     if(event.target.matches('li')){
+//         var pCity = event.target.textContent
+//         getCityCoor(pCity)
+//         console.log(pCity)
+//         getCityWeather()
+//     }
+// })
+
 function storeCity(){
     localStorage.setItem("cityname", JSON.stringify(cityHistory));
     var city = localStorage.getItem("cityname")
@@ -28,14 +38,17 @@ function storeCity(){
 
 
 function renderCity(){
+    // cityList.remove(liEl)
     for( var i=0; i < cityHistory.length; i++) {
+    
     var liEl= document.createElement('li');
     // liEl.innerHTML = cityHistory[i];
     var pastCity = cityHistory[i];
     liEl.textContent= pastCity
     cityList.append(liEl);
-    
     }
+    
+
 }
 
 function getCityCoor (){
@@ -45,9 +58,8 @@ fetch('https://api.openweathermap.org/geo/1.0/direct?q='+city+'&limit=5&appid=f8
         return response.json();
     })
     .then(function(data){
-        
-        var x = data[0].lat
-        var y = data[0].lon
+        // var x = data[0].lat
+        // var y = data[0].lon
         getCityWeather(data[0]);
     });
 };
@@ -59,14 +71,46 @@ fetch('https://api.openweathermap.org/data/2.5/onecall?lat=' +data.lat+ '&lon=' 
         return response.json();
     })
     .then(function(data){
-        
+        console.log(data)
+
         document.getElementById("cCity").textContent= cityInput.val() + moment().format('MM/DD/YYYY')
+
+        // $('#cIcon').attr('src', "http://openweathermap.org/img/w/"+data.weather[0].icon+".png")
+
+        // document.getElementById("cIcon").src="http://openweathermap.org/img/w/"+data.weather[0].icon+".png";
         document.getElementById("cTemp").textContent= "Temp: " + data.current.temp + " deg F"
         document.getElementById("cWind").textContent= "Wind: " + data.current.wind_speed + " MPH"
         document.getElementById("cHumid").textContent= "Humidity: " + data.current.humidity + " %"
         document.getElementById("cUv").textContent= "UV index: " + data.current.uvi
 
+
+// UV Index
+        var uv = parseInt(data.current.uvi, 10)
+
+        console.log(uv)
+
+        if(data.current.uvi < 2){
+            // document.getElementById('#cUv').style.color = "green"
+            console.log("less than 2")
+        }else if(uv >= 2 && uv <5){
+            // document.getElementById('#cUv').style.color = "yellow"
+            console.log("between two and 5")
+        }else if(uv >=5 && uv <7){
+            // document.getElementById('#cUv').style.color = "orange"
+            console.log("between 5 and 7")
+        }else if(uv >=7 && uv <10){
+            // document.getElementById('#cUv').style.color = "red"
+            console.log("between 7 and 10")
+        }else{
+            // document.getElementById('#cUv').style.color = "purple"
+        }
+
+
         document.getElementById("date1").textContent= moment().add(1, 'days').format('MM/DD/YYYY')
+
+        // $('#icon1').attr('src', "http://openweathermap.org/img/w/"+data.daily[0].weather[0].icon+".png")
+
+        // document.getElementById("icon1").src="http://openweathermap.org/img/w/"+data.daily[0].weather[0].icon+".png"
         document.getElementById("temp1").textContent= "Temp: " + data.daily[0].temp.day + " deg F"
         document.getElementById("wind1").textContent= "Wind: " + data.daily[0].wind_speed + " MPH"
         document.getElementById("humid1").textContent= "Humidity: " + data.daily[0].humidity + " %"
@@ -90,8 +134,6 @@ fetch('https://api.openweathermap.org/data/2.5/onecall?lat=' +data.lat+ '&lon=' 
         document.getElementById("temp5").textContent= "Temp: " + data.daily[4].temp.day + " deg F"
         document.getElementById("wind5").textContent= "Wind: " + data.daily[4].wind_speed + " MPH"
         document.getElementById("humid5").textContent= "Humidity: " + data.daily[4].humidity + " %"
-
-       
 
     });
 }
